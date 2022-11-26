@@ -1,0 +1,52 @@
+{
+  "name": "dw2a3_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "babel src --extensions \" .js,.ts\" --out-dir build --copy-files --no-copy-ignored",
+    "start": "npm run build && node ./build/index.js",
+    "dev": "ts-node-dev --respawn --ignore-watch node_modules ./src/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-parameter-decorator": "^1.0.16",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "gensync": "^1.0.0-beta.2",
+    "helmet": "^6.0.0",
+    "http-status": "^1.5.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.2",
+    "@babel/node": "^7.20.2",
+    "@babel/plugin-proposal-decorators": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import-helpers": "^1.3.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.0",
+    "typescript": "^4.9.3"
+  }
+}
