@@ -1,6 +1,5 @@
 import { Request, Response, Router } from "express";
-
-const express = require("express");
+import express = require("express");
 
 const router = express.Router();
 
@@ -40,4 +39,4 @@ class AuthRoute {
   }
 }
 
-module.exports = new AuthRoute().router;
+export default new AuthRoute().router;

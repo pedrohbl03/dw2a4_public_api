@@ -3,6 +3,7 @@ import { Moment } from "moment";
 
 import config from "../config/config";
 import { ITokenService } from "../interfaces";
+import { Token } from "../models";
 
 export class TokenService implements ITokenService {
   async generateToken(

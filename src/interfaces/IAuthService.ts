@@ -1,3 +1,5 @@
+import { Token, User } from "../models";
+
 export interface IAuthService {
   login(username: string, password: string): Promise<Partial<User>>;
   register(

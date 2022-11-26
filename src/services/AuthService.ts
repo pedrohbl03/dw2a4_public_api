@@ -1,4 +1,5 @@
 import { IAuthService } from "../interfaces/IAuthService";
+import { Token, User } from "../models";
 
 export class AuthService implements IAuthService {
   async register(
