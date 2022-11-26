@@ -10,11 +10,6 @@ export interface IUserDocument extends Document {
   email: string;
   password: string;
   isEmailVerified: boolean;
-  tokens: Array<{
-    token: string;
-    type: string;
-    expires: Date;
-  }>;
 }
 
 export interface IUserModel extends Model<IUserDocument> {

@@ -1,7 +1,5 @@
 import { Moment } from "moment";
 
-import { Token, User } from "../../models";
-
 export interface ITokenService {
   generateToken(
     userid: string,
@@ -9,13 +7,13 @@ export interface ITokenService {
     expiresIn: Moment,
     type: string
   ): string;
-  generateAuthTokens(user: User): string;
+  generateAuthTokens(user: any): string;
   verifyToken(token: string, type: string): any;
   saveToken(
     token: string,
     userId: string,
     expiresIn: Moment,
     type: string
-  ): Promise<Token>;
+  ): Promise<any>;
   generateResetPasswordToken(email: string): string;
 }

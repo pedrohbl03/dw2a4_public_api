@@ -1,9 +1,11 @@
-import { IUserService } from "../interfaces/services/IUserService";
+import { ObjectId } from "mongoose";
+
+import { IUserService } from "../interfaces/IUserService";
 import User, { IUserDocument } from "../models/User";
 
 export class UserService implements IUserService {
-  async add(user: IUserDocument): Promise<any> {
-    const { name, email, password } = user;
+  async add(userBody: IUserDocument): Promise<any> {
+    const { name, email, password } = userBody;
 
     if (await User.isEmailTaken(email)) {
       throw new Error("Email is already taken");
@@ -18,11 +20,49 @@ export class UserService implements IUserService {
     return newUser;
   }
 
-  async update(id: string, user: User): Promise<any> { }
+  async update(id: ObjectId, userBody: any): Promise<any> {
+    const userToUpdate = await User.findById(id);
 
-  async delete(id: string): Promise<any> { }
+    if (!userToUpdate) {
+      throw new Error("User not found");
+    }
 
-  async get(id: string): Promise<any> { }
+    if (userBody.email && (await User.isEmailTaken(userBody.email))) {
+      throw new Error("Email is already taken");
+    }
 
-  async getAll(): Promise<any> { }
+    Object.assign(userToUpdate, userBody);
+
+    await userToUpdate.save();
+
+    return userToUpdate;
+  }
+
+  async delete(id: ObjectId): Promise<any> {
+    const userToDelete = await User.findById(id);
+
+    if (!userToDelete) {
+      throw new Error("User not found");
+    }
+
+    await userToDelete.remove();
+
+    return userToDelete;
+  }
+
+  async get(id: ObjectId): Promise<any> {
+    const user = await User.findById(id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user;
+  }
+
+  async getAll(): Promise<any> {
+    const users = await User.find();
+
+    return users;
+  }
 }
