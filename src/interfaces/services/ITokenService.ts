@@ -1,6 +1,6 @@
 import { Moment } from "moment";
 
-import { Token, User } from "../models";
+import { Token, User } from "../../models";
 
 export interface ITokenService {
   generateToken(

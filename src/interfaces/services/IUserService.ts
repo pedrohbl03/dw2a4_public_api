@@ -1,4 +1,4 @@
-import { User } from "../models";
+import { User } from "../../models";
 
 export interface IUserService {
   add(user: User): Promise<Partial<User>>;

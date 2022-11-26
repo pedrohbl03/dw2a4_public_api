@@ -1,23 +1,36 @@
-const express = require("express");
+import express = require("express");
 
-const AuthRoute = require("./AuthRoute");
-const UserRoute = require("./UserRoute");
+import { AuthRoute } from "./AuthRoute";
+import { UserRoute } from "./UserRoute";
 
 const router = express.Router();
 
-const defaultRoutes = [
+const _authRoute = new AuthRoute();
+const _userRoute = new UserRoute();
+
+const _defaultRoutes = [
   {
     path: "/auth",
-    route: AuthRoute,
+    route: _authRoute.router,
   },
   {
     path: "/users",
-    route: UserRoute,
+    route: _userRoute.router,
   },
 ];
+class V1Route {
+  router: express.Router;
 
-defaultRoutes.forEach((route) => {
-  router.use(route.path, route.route);
-});
+  constructor() {
+    this.router = router;
+    this.init();
+  }
 
-module.exports = router;
+  init(): void {
+    _defaultRoutes.forEach((route) => {
+      this.router.use(route.path, route.route);
+    });
+  }
+}
+
+export default new V1Route().router;

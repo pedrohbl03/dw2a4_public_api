@@ -1,23 +1,28 @@
-import { IUserService } from "../interfaces/IUserService";
+import { IUserService } from "../interfaces/services/IUserService";
+import User, { IUserDocument } from "../models/User";
 
 export class UserService implements IUserService {
-  async add(user: User): Promise<Partial<User>> {
-    throw new Error("Method not implemented.");
+  async add(user: IUserDocument): Promise<any> {
+    const { name, email, password } = user;
+
+    if (await User.isEmailTaken(email)) {
+      throw new Error("Email is already taken");
+    }
+
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+    });
+
+    return newUser;
   }
 
-  async update(id: string, user: User): Promise<Partial<User>> {
-    throw new Error("Method not implemented.");
-  }
+  async update(id: string, user: User): Promise<any> { }
 
-  async delete(id: string): Promise<Partial<User>> {
-    throw new Error("Method not implemented.");
-  }
+  async delete(id: string): Promise<any> { }
 
-  async get(id: string): Promise<Partial<User>> {
-    throw new Error("Method not implemented.");
-  }
+  async get(id: string): Promise<any> { }
 
-  async getAll(): Promise<Partial<User>[]> {
-    throw new Error("Method not implemented.");
-  }
+  async getAll(): Promise<any> { }
 }

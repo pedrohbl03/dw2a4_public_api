@@ -27,6 +27,7 @@
       "no-new": "off",
       "no-prototype-builtins": "off",
       "no-restricted-syntax": "off",
+      "@typescript-eslint/no-this-alias": 0,
       "max-classes-per-file": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "no-console": "off",
@@ -61,7 +62,8 @@
         "error",
         "ignorePackages",
         {
-          "ts": "never"
+          "ts": "never",
+          "js": "never"
         }
       ],
       "import-helpers/order-imports": [

@@ -1,10 +1,8 @@
-import { Router, Request, Response } from "express";
-
-const express = require("express");
+import express, { Router, Request, Response } from "express";
 
 const router = express.Router();
 
-class UserRoute {
+export class UserRoute {
   router: Router;
 
   constructor() {
@@ -12,7 +10,7 @@ class UserRoute {
     this.init();
   }
 
-  init() {
+  init(): void {
     // GET /v1/users
     this.router.get("/", (req: Request, res: Response) => {
       res.send("All users");
@@ -39,5 +37,3 @@ class UserRoute {
     });
   }
 }
-
-module.exports = new UserRoute().router;

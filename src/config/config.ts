@@ -1,10 +1,11 @@
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 // Load env vars
-dotenv.config({ path: "../../.env" });
+dotenv.config({ path: `${__dirname} + '/.env` });
 
 export default {
   env: process.env.NODE_ENV || "development",
-  port: process.env.PORT || 3000,
+  port: process.env.PORT,
+  mongodb_url: process.env.MONGODB_URL || "mongodb://localhost:27017",
   jwt: {
     secret: process.env.JWT_SECRET,
     accessExpirationMinutes: process.env.JWT_ACCESS_EXPIRATION_MINUTES,

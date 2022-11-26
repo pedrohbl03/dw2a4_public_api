@@ -1,16 +1,16 @@
+import cors from "cors";
 import express from "express";
+import helmet from "helmet";
 
-// import cors from 'cors';
-// import helmet from 'helmet';
-const routes = require("./routes/v1");
+import routes from "./routes/v1";
 
 const app = express();
 
 // Enable CORS
-// app.use(cors());
+app.use(cors());
 
 // Enable Helmet
-// app.use(helmet());
+app.use(helmet());
 
 // Express use JSON
 app.use(express.json());

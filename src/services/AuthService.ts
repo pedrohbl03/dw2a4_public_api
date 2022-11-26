@@ -1,4 +1,4 @@
-import { IAuthService } from "../interfaces/IAuthService";
+import { IAuthService } from "../interfaces/services/IAuthService";
 import { Token, User } from "../models";
 
 export class AuthService implements IAuthService {

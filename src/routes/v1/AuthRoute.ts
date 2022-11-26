@@ -1,9 +1,8 @@
-import { Request, Response, Router } from "express";
-import express = require("express");
+import express, { Request, Response, Router } from "express";
 
 const router = express.Router();
 
-class AuthRoute {
+export class AuthRoute {
   router: Router;
 
   constructor() {
@@ -11,7 +10,7 @@ class AuthRoute {
     this.init();
   }
 
-  init() {
+  init(): void {
     // POST /v1/auth/login
     this.router.post("/login", (req: Request, res: Response) => {
       res.send("Hello World!");
@@ -38,5 +37,3 @@ class AuthRoute {
     });
   }
 }
-
-export default new AuthRoute().router;

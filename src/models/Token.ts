@@ -1,16 +1,50 @@
-export class Token {
-  acessToken: string;
+import mongoose = require("mongoose");
 
-  refreshToken: string;
+import tokenTypes from "../constants/tokenTypes";
+import { toJSON } from "./plugins";
 
-  userId: string;
-
-  createdAt: Date;
-
-  constructor({ acessToken, refreshToken, userId }: Token) {
-    this.acessToken = acessToken;
-    this.refreshToken = refreshToken;
-    this.userId = userId;
-    this.createdAt = new Date();
+const tokenSchema = new mongoose.Schema(
+  {
+    token: {
+      type: String,
+      required: true,
+      index: true,
+    },
+    user: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: [
+        tokenTypes.ACESS,
+        tokenTypes.REFRESH,
+        tokenTypes.RESET_PASSWORD,
+        tokenTypes.VERIFY_EMAIL,
+      ],
+      required: true,
+    },
+    expires: {
+      type: Date,
+      required: true,
+    },
+    blacklisted: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
   }
-}
+);
+
+// add plugin that converts mongoose to json
+tokenSchema.plugin(toJSON);
+
+/**
+ * @typedef Token
+ */
+const Token = mongoose.model("Token", tokenSchema);
+
+export default Token;
