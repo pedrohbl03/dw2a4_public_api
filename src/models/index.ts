@@ -1,2 +1,2 @@
-module.exports.User = require("./User");
-module.exports.Token = require("./Token");
+export * from "./User";
+export * from "./Token";

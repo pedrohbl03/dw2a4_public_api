@@ -1,4 +1,6 @@
-class User {
+import { Token } from "./Token";
+
+export class User {
   name: string;
 
   email: string;
@@ -14,5 +16,3 @@ class User {
     this.tokens = tokens;
   }
 }
-
-module.exports = User;

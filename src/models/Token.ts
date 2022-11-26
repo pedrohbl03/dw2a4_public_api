@@ -1,4 +1,4 @@
-class Token {
+export class Token {
   acessToken: string;
 
   refreshToken: string;
@@ -14,5 +14,3 @@ class Token {
     this.createdAt = new Date();
   }
 }
-
-module.exports = Token;

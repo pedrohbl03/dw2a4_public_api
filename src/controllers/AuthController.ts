@@ -8,9 +8,10 @@ const _tokenService = new TokenService();
 export class AuthController {
   public static async login(req: Request, res: Response) {
     const { email, password } = req.body;
-    const result = await _authService.login(email, password);
+    const user = await _authService.login(email, password);
+    const tokens = await _tokenService.generateAuthTokens(user);
 
-    res.status(200).json(result);
+    res.status(200).json(user);
   }
 
   public static async register(req: Request, res: Response) {
@@ -40,5 +41,4 @@ export class AuthController {
 
     res.status(200).json(result);
   }
-
 }
