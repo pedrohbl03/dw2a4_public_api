@@ -1,9 +1,10 @@
 import mongoose = require("mongoose");
 
 import tokenTypes from "../constants/tokenTypes";
+import { ITokenDocument } from "../interfaces";
 import { toJSON } from "./plugins";
 
-const tokenSchema = new mongoose.Schema(
+const tokenSchema = new mongoose.Schema<ITokenDocument>(
   {
     token: {
       type: String,
@@ -29,7 +30,7 @@ const tokenSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    blacklisted: {
+    blocklisted: {
       type: Boolean,
       default: false,
     },
@@ -45,6 +46,6 @@ tokenSchema.plugin(toJSON);
 /**
  * @typedef Token
  */
-const Token = mongoose.model("Token", tokenSchema);
+const Token = mongoose.model<ITokenDocument>("Token", tokenSchema);
 
 export default Token;

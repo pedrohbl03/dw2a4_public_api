@@ -1,10 +1,10 @@
-import { ObjectId } from "mongoose";
+import { Types } from "mongoose";
 
-import { IUserService } from "../interfaces/IUserService";
-import User, { IUserDocument } from "../models/User";
+import { IUserService, IUser, IUserDocument } from "../interfaces/User";
+import User from "../models/User";
 
 export class UserService implements IUserService {
-  async add(userBody: IUserDocument): Promise<any> {
+  async add(userBody: IUser): Promise<any> {
     const { name, email, password } = userBody;
 
     if (await User.isEmailTaken(email)) {
@@ -20,7 +20,10 @@ export class UserService implements IUserService {
     return newUser;
   }
 
-  async update(id: ObjectId, userBody: any): Promise<any> {
+  async update(
+    id: Types.ObjectId,
+    userBody: Partial<IUserDocument>
+  ): Promise<any> {
     const userToUpdate = await User.findById(id);
 
     if (!userToUpdate) {
@@ -38,7 +41,7 @@ export class UserService implements IUserService {
     return userToUpdate;
   }
 
-  async delete(id: ObjectId): Promise<any> {
+  async delete(id: Types.ObjectId): Promise<IUser> {
     const userToDelete = await User.findById(id);
 
     if (!userToDelete) {
@@ -50,7 +53,7 @@ export class UserService implements IUserService {
     return userToDelete;
   }
 
-  async get(id: ObjectId): Promise<any> {
+  async get(id: Types.ObjectId): Promise<IUserDocument> {
     const user = await User.findById(id);
 
     if (!user) {
@@ -64,5 +67,15 @@ export class UserService implements IUserService {
     const users = await User.find();
 
     return users;
+  }
+
+  async getUserByEmail(email: string): Promise<any> {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user;
   }
 }

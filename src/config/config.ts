@@ -1,13 +1,16 @@
 import * as dotenv from "dotenv";
+
+import { IConfig } from "../interfaces/Config";
+
 // Load env vars
 dotenv.config({ path: `${__dirname} + '/.env` });
 
-export default {
+export const config: IConfig = {
   env: process.env.NODE_ENV || "development",
   port: process.env.PORT,
   mongodb_url: process.env.MONGODB_URL || "mongodb://localhost:27017",
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: process.env.JWT_SECRET || "secret",
     accessExpirationMinutes: process.env.JWT_ACCESS_EXPIRATION_MINUTES,
     refreshExpirationDays: process.env.JWT_REFRESH_EXPIRATION_DAYS,
     resetPasswordExpirationMinutes:

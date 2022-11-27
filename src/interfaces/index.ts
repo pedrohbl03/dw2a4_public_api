@@ -1,3 +1,3 @@
-export * from "./IAuthService";
-export * from "./IUserService";
-export * from "./ITokenService";
+export * from "./Auth";
+export * from "./User";
+export * from "./Token";

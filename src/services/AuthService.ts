@@ -1,28 +1,89 @@
-import { IAuthService } from "../interfaces/IAuthService";
-import { Token, User } from "../models";
+import { UserService, TokenService } from ".";
+import TokenTypes from "../constants/tokenTypes";
+import { IAuthTokens, IUserDocument } from "../interfaces";
+import { IAuthService } from "../interfaces/Auth";
+import { Token } from "../models";
 
+const _userService = new UserService();
+const _tokenService = new TokenService();
 export class AuthService implements IAuthService {
-  async register(
-    username: string,
-    email: string,
-    password: string
-  ): Promise<Partial<User>> {
-    throw new Error("Method not implemented.");
-  }
+  async refreshAuth(refreshToken: string): Promise<IAuthTokens> {
+    const refreshTokenDoc = await _tokenService.verifyToken(
+      refreshToken,
+      TokenTypes.REFRESH
+    );
 
-  async refreshTokens(refreshToken: string): Promise<Partial<Token>> {
-    throw new Error("Method not implemented.");
+    if (!refreshTokenDoc) {
+      throw new Error("Invalid token");
+    }
+
+    const user = await _userService.get(refreshTokenDoc.user);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const authTokens = await _tokenService.generateAuthTokens(user);
+
+    return authTokens;
   }
 
   async logout(refreshToken: string): Promise<any> {
-    throw new Error("Method not implemented.");
+    const refreshTokenDoc = await Token.findOne({
+      token: refreshToken,
+      type: TokenTypes.REFRESH,
+    });
+
+    if (!refreshTokenDoc) {
+      throw new Error("Invalid token");
+    }
+    await refreshTokenDoc.remove();
+
+    return {
+      message: "Logout successful",
+    };
   }
 
-  async login(username: string, password: string): Promise<Partial<User>> {
-    throw new Error("Method not implemented.");
+  async loginWithEmailAndPassword(
+    email: string,
+    password: string
+  ): Promise<IUserDocument> {
+    const user = await _userService.getUserByEmail(email);
+
+    if (!user) {
+      throw new Error("Invalid credentials");
+    }
+
+    const isPasswordMatch = await user.isPasswordMatch(password);
+
+    if (!isPasswordMatch) {
+      throw new Error("Invalid credentials");
+    }
+
+    return user;
   }
 
-  async forgotPassword(email: string): Promise<any> {
-    throw new Error("Method not implemented.");
+  async resetPassword(token: string, newPassword: string): Promise<any> {
+    try {
+      const tokenDoc = await _tokenService.verifyToken(
+        token,
+        TokenTypes.RESET_PASSWORD
+      );
+
+      const user = await _userService.get(tokenDoc.user);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      _userService.update(user._id, { password: newPassword });
+
+      await Token.deleteMany({
+        user: user._id,
+        type: TokenTypes.RESET_PASSWORD,
+      });
+    } catch (error) {
+      throw new Error(`Password reset failed: ${error}`);
+    }
   }
 }

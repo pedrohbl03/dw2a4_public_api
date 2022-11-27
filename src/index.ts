@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 import "dotenv/config";
 
 import app from "./app";
-import config from "./config/config";
+import { config } from "./config/config";
 import logger from "./config/logger";
 
 let server: any;
 
-mongoose.connect(config.mongodb_url).then(() => {
+mongoose.connect(config?.mongodb_url).then(() => {
   logger.info("Connected to MongoDB");
   server = app.listen(config.port, () => {
     logger.info(`Listening to port ${config.port}`);

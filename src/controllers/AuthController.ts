@@ -1,22 +1,29 @@
 import { Request, Response } from "express";
 
-import { AuthService, TokenService } from "../services";
+import {
+  AuthService,
+  EmailService,
+  TokenService,
+  UserService,
+} from "../services";
 
 const _authService = new AuthService();
+const _userService = new UserService();
 const _tokenService = new TokenService();
+const _emailService = new EmailService();
 
 export class AuthController {
   public static async login(req: Request, res: Response): Promise<Response> {
     const { email, password } = req.body;
-    const user = await _authService.login(email, password);
-    const tokens = await _tokenService.generateAuthTokens(user);
+    const user = await _authService.loginWithEmailAndPassword(email, password);
+    const authTokens = await _tokenService.generateAuthTokens(user);
 
-    return res.status(200).json({ user, tokens });
+    return res.status(200).json({ user, authTokens });
   }
 
   public static async register(req: Request, res: Response): Promise<Response> {
     const { name, email, password } = req.body;
-    const newUser = await _authService.register(name, email, password);
+    const newUser = await _userService.add({ name, email, password });
 
     return res.status(200).json(newUser);
   }
@@ -33,9 +40,12 @@ export class AuthController {
     res: Response
   ): Promise<Response> {
     const { email } = req.body;
-    const result = await _authService.forgotPassword(email);
+    const resetPasswordToken = await _tokenService.generateResetPasswordToken(
+      email
+    );
+    await _emailService.sendResetPasswordEmail(email, resetPasswordToken);
 
-    return res.status(200).json(result);
+    return res.status(200).json({ message: "Reset password e-mail send." });
   }
 
   public static async refreshTokens(
@@ -43,7 +53,7 @@ export class AuthController {
     res: Response
   ): Promise<Response> {
     const { refreshToken } = req.body;
-    const result = await _authService.refreshTokens(refreshToken);
+    const result = await _authService.refreshAuth(refreshToken);
 
     return res.status(200).json(result);
   }

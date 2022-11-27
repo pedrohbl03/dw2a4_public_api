@@ -1,21 +1,10 @@
 /* eslint-disable func-names */
 import bcrypt from "bcryptjs";
-import { Schema, model, Types, Document, Model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 import validator from "validator";
 
+import { IUserDocument, IUserModel } from "../interfaces";
 import { toJSON, paginate } from "./plugins";
-
-export interface IUserDocument extends Document {
-  name: string;
-  email: string;
-  password: string;
-  isEmailVerified: boolean;
-}
-
-export interface IUserModel extends Model<IUserDocument> {
-  isEmailTaken(email: string, excludeUserId?: Types.ObjectId): Promise<boolean>;
-  isPasswordMatch(password: string): Promise<boolean>;
-}
 
 const userSchema = new Schema<IUserDocument>(
   {
