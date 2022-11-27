@@ -1,4 +1,7 @@
-import express, { Request, Response, Router } from "express";
+import express, { Router } from "express";
+
+import { AuthController } from "../../controllers";
+import { catchAsync } from "../../utils/CatchAsync";
 
 const router = express.Router();
 
@@ -11,29 +14,18 @@ export class AuthRoute {
   }
 
   init(): void {
-    // POST /v1/auth/login
-    this.router.post("/login", (req: Request, res: Response) => {
-      res.send("Hello World!");
-    });
+    this.router.route("/login").post(catchAsync(AuthController.login));
 
-    // POST /v1/auth/register
-    this.router.post("/register", (req: Request, res: Response) => {
-      res.send("Hello World!");
-    });
+    this.router.route("/register").post(catchAsync(AuthController.register));
 
-    // POST /v1/auth/refresh-tokens
-    this.router.post("/refresh-tokens", (req: Request, res: Response) => {
-      res.send("Hello World!");
-    });
+    this.router.route("/logout").post(catchAsync(AuthController.logout));
 
-    // POST /v1/auth/logout
-    this.router.post("/logout", (req: Request, res: Response) => {
-      res.send("Hello World!");
-    });
+    this.router
+      .route("/forgot-password")
+      .post(catchAsync(AuthController.forgotPassword));
 
-    // POST /v1/auth/forgot-password
-    this.router.post("/forgot-password", (req: Request, res: Response) => {
-      res.send("Hello World!");
-    });
+    this.router
+      .route("/refresh-tokens")
+      .post(catchAsync(AuthController.refreshTokens));
   }
 }

@@ -1,14 +1,16 @@
+import httpStatus from "http-status";
 import { Types } from "mongoose";
 
 import { IUserService, IUser, IUserDocument } from "../interfaces/User";
 import User from "../models/User";
+import ApiError from "../utils/ApiError";
 
 export class UserService implements IUserService {
-  async add(userBody: IUser): Promise<any> {
+  public async add(userBody: IUser): Promise<any> {
     const { name, email, password } = userBody;
 
     if (await User.isEmailTaken(email)) {
-      throw new Error("Email is already taken");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Email is already taken");
     }
 
     const newUser = await User.create({
@@ -20,18 +22,18 @@ export class UserService implements IUserService {
     return newUser;
   }
 
-  async update(
+  public async update(
     id: Types.ObjectId,
     userBody: Partial<IUserDocument>
   ): Promise<any> {
     const userToUpdate = await User.findById(id);
 
     if (!userToUpdate) {
-      throw new Error("User not found");
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
 
     if (userBody.email && (await User.isEmailTaken(userBody.email))) {
-      throw new Error("Email is already taken");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Email is already taken");
     }
 
     Object.assign(userToUpdate, userBody);
@@ -41,11 +43,11 @@ export class UserService implements IUserService {
     return userToUpdate;
   }
 
-  async delete(id: Types.ObjectId): Promise<IUser> {
+  public async delete(id: Types.ObjectId): Promise<IUser> {
     const userToDelete = await User.findById(id);
 
     if (!userToDelete) {
-      throw new Error("User not found");
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
 
     await userToDelete.remove();
@@ -53,27 +55,27 @@ export class UserService implements IUserService {
     return userToDelete;
   }
 
-  async get(id: Types.ObjectId): Promise<IUserDocument> {
+  public async get(id: Types.ObjectId): Promise<IUserDocument> {
     const user = await User.findById(id);
 
     if (!user) {
-      throw new Error("User not found");
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
 
     return user;
   }
 
-  async getAll(): Promise<any> {
+  public async getAll(): Promise<any> {
     const users = await User.find();
 
     return users;
   }
 
-  async getUserByEmail(email: string): Promise<any> {
+  public async getUserByEmail(email: string): Promise<any> {
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw new Error("User not found");
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
 
     return user;

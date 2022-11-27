@@ -1,3 +1,4 @@
+import httpStatus from "http-status";
 import jwt from "jsonwebtoken";
 import moment, { Moment } from "moment";
 import { Types } from "mongoose";
@@ -11,6 +12,7 @@ import {
   IUserDocument,
 } from "../interfaces";
 import { Token, User } from "../models";
+import ApiError from "../utils/ApiError";
 
 export class TokenService implements ITokenService {
   private async generateToken(
@@ -47,7 +49,7 @@ export class TokenService implements ITokenService {
     return tokenDoc;
   }
 
-  async generateAuthTokens(user: Partial<IUserDocument>): Promise<{
+  public async generateAuthTokens(user: Partial<IUserDocument>): Promise<{
     accessToken: IToken;
     refreshToken: IToken;
   }> {
@@ -91,7 +93,10 @@ export class TokenService implements ITokenService {
     };
   }
 
-  async verifyToken(token: string, type: string): Promise<ITokenDocument> {
+  public async verifyToken(
+    token: string,
+    type: string
+  ): Promise<ITokenDocument> {
     const payload = jwt.verify(token, config.jwt.secret);
     const tokenDoc = await Token.findOne({
       token,
@@ -101,19 +106,19 @@ export class TokenService implements ITokenService {
     });
 
     if (!tokenDoc) {
-      throw new Error("Token not found");
+      throw new ApiError(httpStatus.NOT_FOUND, "Token not found");
     }
 
     return tokenDoc;
   }
 
-  async generateResetPasswordToken(email: string): Promise<string> {
+  public async generateResetPasswordToken(email: string): Promise<string> {
     const user = await User.findOne({
       email,
     });
 
     if (!user) {
-      throw new Error("User not found");
+      throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
 
     const expires = moment().add(

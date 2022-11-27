@@ -32,7 +32,7 @@ export class EmailService {
     return this.transporter.sendMail(mailOptions);
   };
 
-  async sendResetPasswordEmail(to: string, token: string): Promise<any> {
+  public async sendResetPasswordEmail(to: string, token: string): Promise<any> {
     const subject = "Reset Password";
     const html = `Please use the following link to reset your password: <a href="http://localhost:3000/reset-password/${token}">Reset Password</a>`;
 

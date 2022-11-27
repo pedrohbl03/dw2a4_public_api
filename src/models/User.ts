@@ -1,9 +1,11 @@
 /* eslint-disable func-names */
 import bcrypt from "bcryptjs";
+import httpStatus from "http-status";
 import { Schema, model, Types } from "mongoose";
 import validator from "validator";
 
 import { IUserDocument, IUserModel } from "../interfaces";
+import ApiError from "../utils/ApiError";
 import { toJSON, paginate } from "./plugins";
 
 const userSchema = new Schema<IUserDocument>(
@@ -21,7 +23,7 @@ const userSchema = new Schema<IUserDocument>(
       lowercase: true,
       validate(value: string) {
         if (!validator.isEmail(value)) {
-          throw new Error("Invalid email");
+          throw new ApiError(httpStatus.BAD_REQUEST, "Invalid email");
         }
       },
     },
@@ -32,7 +34,8 @@ const userSchema = new Schema<IUserDocument>(
       minlength: 8,
       validate(value: string) {
         if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
-          throw new Error(
+          throw new ApiError(
+            httpStatus.BAD_REQUEST,
             "Password must contain at least one letter and one number"
           );
         }
