@@ -1,12 +1,14 @@
-import express = require("express");
+import express from "express";
 
 import { AuthRoute } from "./AuthRoute";
 import { UserRoute } from "./UserRoute";
+import { CustomerRoute } from "./CustomerRoute"
 
 const router = express.Router();
 
 const _authRoute = new AuthRoute();
 const _userRoute = new UserRoute();
+const _customersRoute = new CustomerRoute();
 
 const _defaultRoutes = [
   {
@@ -16,6 +18,10 @@ const _defaultRoutes = [
   {
     path: "/users",
     route: _userRoute.router,
+  },
+  {
+    path: "/customers",
+    route: _customersRoute.router,
   },
 ];
 class V1Route {

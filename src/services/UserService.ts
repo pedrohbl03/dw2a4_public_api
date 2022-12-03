@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 import { Types } from "mongoose";
 
 import { IUserService, IUser, IUserDocument } from "../interfaces/User";
-import User from "../models/User";
+import User from "../models/UserModel";
 import ApiError from "../utils/ApiError";
 
 export class UserService implements IUserService {

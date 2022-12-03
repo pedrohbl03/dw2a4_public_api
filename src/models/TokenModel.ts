@@ -1,10 +1,10 @@
-import mongoose = require("mongoose");
+import mongoose, { Schema, model, SchemaTypes } from "mongoose";
 
 import tokenTypes from "../constants/tokenTypes";
 import { ITokenDocument } from "../interfaces";
 import { toJSON } from "./plugins";
 
-const tokenSchema = new mongoose.Schema<ITokenDocument>(
+const tokenSchema = new Schema<ITokenDocument>(
   {
     token: {
       type: String,
@@ -12,7 +12,7 @@ const tokenSchema = new mongoose.Schema<ITokenDocument>(
       index: true,
     },
     user: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: SchemaTypes.ObjectId,
       ref: "User",
       required: true,
     },
@@ -46,6 +46,6 @@ tokenSchema.plugin(toJSON);
 /**
  * @typedef Token
  */
-const Token = mongoose.model<ITokenDocument>("Token", tokenSchema);
+const Token = model<ITokenDocument>("Token", tokenSchema);
 
 export default Token;
