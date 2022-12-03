@@ -57,23 +57,28 @@ export class TokenService implements ITokenService {
       config.jwt.accessExpirationMinutes,
       "minutes"
     );
-    const refreshTokenExpires = moment().add(
-      config.jwt.refreshExpirationDays,
-      "days"
-    );
-
     const accessToken = await this.generateToken(
       user._id,
       accessTokenExpires,
       TokenTypes.ACESS
     );
+    await this.saveToken(
+      accessToken,
+      user._id,
+      accessTokenExpires,
+      TokenTypes.REFRESH
+    );
 
+
+    const refreshTokenExpires = moment().add(
+      config.jwt.refreshExpirationDays,
+      "days"
+    );
     const refreshToken = await this.generateToken(
       user._id,
       refreshTokenExpires,
       TokenTypes.REFRESH
     );
-
     await this.saveToken(
       refreshToken,
       user._id,
