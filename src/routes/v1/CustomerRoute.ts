@@ -22,7 +22,7 @@ export class CustomerRoute {
 
     this.router
       .route(':id')
-      .get(auth(), catchAsync(CustomerController.deleteCustomerById))
+      .get(auth(), catchAsync(CustomerController.getCustomerById))
       .put(auth(), catchAsync(CustomerController.updateCustomerById))
       .delete(auth(), catchAsync(CustomerController.deleteCustomerById))
   }
