@@ -32,7 +32,7 @@ export class UserService implements IUserService {
       throw new ApiError(httpStatus.NOT_FOUND, "User not found");
     }
 
-    if (userBody.email && (await User.isEmailTaken(userBody.email))) {
+    if (userBody.email && (await User.isEmailTaken(userBody.email, id))) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Email is already taken");
     }
 

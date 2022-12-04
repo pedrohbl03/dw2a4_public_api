@@ -13,11 +13,11 @@ export class CustomerService implements ICustomerService {
       throw new ApiError(httpStatus.NOT_FOUND, "Customer not found");
     }
 
-    if (userBody.email && (await Customer.isEmailTaken(userBody.email))) {
+    if (userBody.email && (await Customer.isEmailTaken(userBody.email, id))) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Email is already taken");
     }
 
-    if (userBody.legalDocument && (await Customer.isEmailTaken(userBody.legalDocument))) {
+    if (userBody.legalDocument && (await Customer.isLegalDocumentTaken(userBody.legalDocument, id))) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Legal document is already taken");
     }
 
