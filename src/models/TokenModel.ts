@@ -19,7 +19,7 @@ const tokenSchema = new Schema<ITokenDocument>(
     type: {
       type: String,
       enum: [
-        tokenTypes.ACESS,
+        tokenTypes.ACCESS,
         tokenTypes.REFRESH,
         tokenTypes.RESET_PASSWORD,
         tokenTypes.VERIFY_EMAIL,

@@ -60,7 +60,7 @@ export class TokenService implements ITokenService {
     const accessToken = await this.generateToken(
       user._id,
       accessTokenExpires,
-      TokenTypes.ACESS
+      TokenTypes.ACCESS
     );
     await this.saveToken(
       accessToken,

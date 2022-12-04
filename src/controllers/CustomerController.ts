@@ -16,6 +16,7 @@ export class CustomerController {
   }
 
   public static async addNewCustomer(req: Request<any, ICustomer>, res: Response): Promise<Response> {
+    console.log(req.body);
     const addNewCustomer = await _customerService.addNewCustomer(req.body);
 
     return res.status(200).json(addNewCustomer);

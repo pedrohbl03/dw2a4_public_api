@@ -54,6 +54,16 @@ export class CustomerService implements ICustomerService {
     return customers;
   }
   public async addNewCustomer(customerBody: ICustomer) {
+    if (await Customer.isEmailTaken(customerBody.email)) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Email is already taken");
+    }
 
+    if (await Customer.isLegalDocumentTaken(customerBody.legalDocument)) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Legal document is already taken");
+    }
+
+    const customer = await Customer.create(customerBody);
+
+    return customer;
   }
 }
