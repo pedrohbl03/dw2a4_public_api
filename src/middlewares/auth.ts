@@ -23,7 +23,7 @@ const verifyCallback = (req : Request, resolve: any, reject : any, requiredRight
 };
 
 export const auth =
-  (...requiredRights: undefined[]) =>
+  (...requiredRights: string[]) =>
   async (req : Request, res: Response, next: NextFunction) => {
     return new Promise((resolve, reject) => {
       passport.authenticate('jwt', { session: false }, verifyCallback(req, resolve, reject, requiredRights))(req, res, next);

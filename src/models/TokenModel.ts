@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, SchemaTypes } from "mongoose";
+import { Schema, model, SchemaTypes } from "mongoose";
 
 import tokenTypes from "../constants/tokenTypes";
 import { ITokenDocument } from "../interfaces";
