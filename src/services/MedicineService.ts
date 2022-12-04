@@ -9,7 +9,7 @@ export class MedicineService implements IMedicineService {
   public async updateMedicineById(id: Types.ObjectId, medicineBody: Partial<IMedicineDocument>): Promise<IMedicineDocument> {
     const medicineToUodate = await Medicine.findById(id);
 
-    if(!medicineToUodate){
+    if (!medicineToUodate) {
       throw new ApiError(httpStatus.NOT_FOUND, "Medicine not found");
     }
 
@@ -22,7 +22,7 @@ export class MedicineService implements IMedicineService {
   public async deleteMedicineById(id: Types.ObjectId): Promise<any> {
     const medicineToDelete = await Medicine.findById(id)
 
-    if(!medicineToDelete){
+    if (!medicineToDelete) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Medicine not found')
     }
 
@@ -34,14 +34,16 @@ export class MedicineService implements IMedicineService {
   public async getMedicineById(id: Types.ObjectId): Promise<any> {
     const medicineDoc = await Medicine.findById(id)
 
-    if(!medicineDoc){
+    if (!medicineDoc) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Medicine not found');
     }
 
     return medicineDoc;
   }
   public async getAllMedicines(): Promise<any> {
-    const medicines = Medicine.find();
+    const medicines = Medicine
+      .find()
+      .populate({ path: 'provider', select: 'name' });
 
     return medicines;
   }
