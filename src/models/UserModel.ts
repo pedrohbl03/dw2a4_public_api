@@ -7,6 +7,7 @@ import validator from "validator";
 import { IUserDocument, IUserModel } from "../interfaces";
 import ApiError from "../utils/ApiError";
 import { toJSON, paginate } from "./plugins";
+import { roles } from "../config/roles";
 
 const userSchema = new Schema<IUserDocument>(
   {
@@ -41,6 +42,11 @@ const userSchema = new Schema<IUserDocument>(
         }
       },
       private: true, // used by the toJSON plugin
+    },
+    role: {
+      type: String,
+      enum: roles,
+      default: 'user',
     },
     isEmailVerified: {
       type: Boolean,

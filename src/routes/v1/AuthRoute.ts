@@ -2,6 +2,7 @@ import express, { Router } from "express";
 
 import { AuthController } from "../../controllers";
 import { catchAsync } from "../../utils/CatchAsync";
+import { auth } from "../../middlewares/auth";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ export class AuthRoute {
   init(): void {
     this.router.route("/login").post(catchAsync(AuthController.login));
 
-    this.router.route("/register").post(catchAsync(AuthController.register));
+    this.router.route("/register").post(auth(), catchAsync(AuthController.register));
 
     this.router.route("/logout").post(catchAsync(AuthController.logout));
 

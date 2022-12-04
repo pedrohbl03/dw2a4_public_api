@@ -32,7 +32,7 @@ const customerSchema = new Schema<ICustomerDocument>(
       trim: true,
       lowercase: true,
       validate(value: string) {
-        if(!validator.isPostalCode(value, 'BR')){
+        if (!validator.isPostalCode(value, 'BR')) {
           throw new ApiError(httpStatus.BAD_REQUEST, `Invalid Postal Code: ${value}`);
         }
       }
@@ -53,8 +53,8 @@ const customerSchema = new Schema<ICustomerDocument>(
       required: true,
       trim: true,
       lowercase: true,
-      validate(value: string){
-        if(!validator.isMobilePhone(value, 'pt-BR')){
+      validate(value: string) {
+        if (!validator.isMobilePhone(value, 'pt-BR')) {
           throw new ApiError(httpStatus.BAD_REQUEST, `Invalid Phone Number: ${value}`)
         }
       }
@@ -63,12 +63,11 @@ const customerSchema = new Schema<ICustomerDocument>(
       type: Boolean,
       required: true,
       trim: true,
-      validate(value: string){
-        if(!validator.isBoolean){
+      validate(value: string) {
+        if (!validator.isBoolean) {
           throw new ApiError(httpStatus.BAD_REQUEST, `Invalid client status: ${value}`)
         }
       }
-
     }
   },
   {
