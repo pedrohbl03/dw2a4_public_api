@@ -26,6 +26,6 @@ export class ProviderRoute {
       .route("/:_id")
       .get(auth(), catchAsync(ProviderController.getProviderById))
       .put(auth(), catchAsync(ProviderController.updateProviderById))
-      .delete(auth(), catchAsync(ProviderController.deleteProviderById));
+      .delete(auth('manageUsers'), catchAsync(ProviderController.deleteProviderById));
   }
 }
