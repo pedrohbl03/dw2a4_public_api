@@ -4,7 +4,7 @@ export interface ICustomer {
   name: string;
   email: string
   postalCode: string
-  adress: string
+  address: string
   legalDocument: string
   phone: string
 }
@@ -13,7 +13,7 @@ export interface ICustomerDocument extends Document {
   name: string;
   email: string
   postalCode: string
-  adress: string
+  address: string
   legalDocument: string
   phone: string
   isActiveClient: boolean

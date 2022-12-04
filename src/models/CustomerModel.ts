@@ -37,7 +37,7 @@ const customerSchema = new Schema<ICustomerDocument>(
         }
       }
     },
-    adress: {
+    address: {
       type: String,
       required: true,
       trim: true,
