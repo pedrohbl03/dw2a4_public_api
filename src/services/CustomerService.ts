@@ -48,6 +48,7 @@ export class CustomerService implements ICustomerService {
 
     return customer;
   }
+  
   public async getAllCustomers(): Promise<any> {
     const customers = Customer.find();
 

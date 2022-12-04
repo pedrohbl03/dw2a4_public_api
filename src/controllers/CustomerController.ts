@@ -38,10 +38,10 @@ export class CustomerController {
 
   public static async getCustomerById(req: Request<Types.ObjectId>, res: Response): Promise<Response> {
     const { _id } = req.params;
-    const Customer = await _customerService.getCustomerById(_id);
+    const customer = await _customerService.getCustomerById(_id);
 
 
-    return res.status(200).json(Customer);
+    return res.status(200).json(customer);
   }
 
 }
